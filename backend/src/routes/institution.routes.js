@@ -4,7 +4,8 @@ import { authenticate } from '../middleware/authenticate.js';
 
 const router = express.Router();
 
-router.get('/:id', authenticate, instController.getProfile);
-router.patch('/:id', authenticate, instController.updateProfile);
+router.post('/details', authenticate, instController.saveDetails);
+router.post('/submit-verification', authenticate, instController.submitVerification);
+router.get('/verification-status', authenticate, instController.getVerificationStatus);
 
 export default router;

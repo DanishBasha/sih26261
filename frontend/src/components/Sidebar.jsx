@@ -13,23 +13,26 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   ];
 
   const officialLinks = [
-    { id: 'review', label: 'Review Queue', icon: ShieldCheck },
+    { id: 'verifications', label: 'Institution Queue', icon: Building2 },
+    { id: 'review', label: 'Scrutiny Dossiers', icon: ShieldCheck },
     { id: 'rules', label: 'Rules Catalog', icon: BookOpen },
     { id: 'notifications', label: 'Alerts', icon: Bell }
   ];
 
   const adminLinks = [
     { id: 'admin-dashboard', label: 'System Overview', icon: Activity },
+    { id: 'verifications', label: 'Institution Queue', icon: Building2 },
     { id: 'rules', label: 'Rule Management', icon: BookOpen },
     { id: 'notifications', label: 'Audit & Logs', icon: Bell }
   ];
 
-  const links = user.role === 'official' ? officialLinks : user.role === 'admin' ? adminLinks : institutionLinks;
+  const role = user?.role === 'institution_user' ? 'institution' : user?.role || 'institution';
+  const links = role === 'official' ? officialLinks : role === 'admin' ? adminLinks : institutionLinks;
 
   return (
     <aside className="w-64 bg-white border-r border-slate-200 min-h-[calc(100vh-64px)] p-4 space-y-1">
       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">
-        {user.role} Navigation
+        {role} Navigation
       </div>
       {links.map((link) => {
         const Icon = link.icon;

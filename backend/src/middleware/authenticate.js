@@ -1,11 +1,24 @@
-// Mock session/token authentication for local and demo use
-export function authenticate(req, res, next) {
-  const authHeader = req.headers.authorization;
-  // Support header or query or default to authorized role
+import { query } from '../config/supabase.js';
+
+export async function authenticate(req, res, next) {
+  const userId = req.headers['x-user-id'];
+  const userRole = req.headers['x-user-role'];
+  const userEmail = req.headers['x-user-email'];
+
+  if (userId) {
+    req.user = {
+      id: userId,
+      role: userRole || 'institution_user',
+      email: userEmail || 'user@example.com'
+    };
+    return next();
+  }
+
+  // Fallback demo user if none supplied
   req.user = {
-    id: req.headers['x-user-id'] || 'user-default-1',
-    role: req.headers['x-user-role'] || 'institution',
-    email: req.headers['x-user-email'] || 'principal@college.edu'
+    id: '22222222-2222-2222-2222-222222222222',
+    role: 'institution_user',
+    email: 'institution@apex.edu'
   };
   next();
 }
