@@ -101,11 +101,15 @@ export default function Register({ onBackToLogin, onCompleteRegistration }) {
   // Resend Email Code
   const handleResendCode = async () => {
     try {
-      await fetch('/api/auth/resend-verification', {
+      const res = await fetch('/api/auth/resend-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
       });
+      const data = await res.json();
+      if (data.verification_code) {
+        setCreatedUser(prev => ({ ...prev, verification_code: data.verification_code }));
+      }
       setMessage('A new 6-digit verification code has been dispatched to your email.');
     } catch (err) {
       setError(err.message);
@@ -330,7 +334,26 @@ export default function Register({ onBackToLogin, onCompleteRegistration }) {
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center space-y-1">
               <p className="text-xs text-slate-600">We dispatched a 6-digit code to:</p>
               <p className="font-mono font-bold text-sm text-slate-800">{email}</p>
+              <p className="text-[11px] text-amber-700 bg-amber-50 py-1 px-2 rounded mt-2 border border-amber-200">
+                Please check your <strong>Spam / Junk</strong> folder if not in your primary Inbox.
+              </p>
             </div>
+
+            {createdUser?.verification_code && (
+              <div className="p-3.5 bg-sky-50 border border-sky-200 rounded-xl flex items-center justify-between text-xs text-sky-900">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-sky-700 block">Instant Verification Code:</span>
+                  <span className="font-mono font-extrabold text-lg tracking-widest text-sky-900">{createdUser.verification_code}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setVerificationCode(createdUser.verification_code)}
+                  className="px-3 py-1.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-bold shadow-xs transition"
+                >
+                  Auto-Fill
+                </button>
+              </div>
+            )}
 
             <div>
               <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1 text-center">

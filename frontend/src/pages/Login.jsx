@@ -105,6 +105,9 @@ export default function Login({ initialPortal = 'institution', onNavigateRegiste
       });
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.error || 'Failed to dispatch reset code');
+      if (data.reset_code) {
+        setResetCode(data.reset_code);
+      }
       setForgotStep(2);
       setForgotSuccess('A 6-digit recovery code has been sent to your email.');
     } catch (err) {

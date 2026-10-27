@@ -51,7 +51,10 @@ export async function registerInstitutionUser({ full_name, email, mobile_number,
     `
   }).catch(e => console.error('Verification email error:', e));
 
-  return user;
+  return {
+    ...user,
+    verification_code: code
+  };
 }
 
 export async function verifyEmail({ email, code }) {
@@ -99,7 +102,7 @@ export async function resendVerification({ email }) {
     html: `<p>Your new verification code is: <strong>${newCode}</strong></p>`
   }).catch(console.error);
 
-  return { success: true, message: 'New verification code dispatched.' };
+  return { success: true, message: 'New verification code dispatched.', verification_code: newCode };
 }
 
 export async function login({ email, password, portalType }) {
@@ -177,7 +180,7 @@ export async function requestPasswordReset({ email }) {
     `
   }).catch(console.error);
 
-  return { success: true, message: 'If an account exists, a recovery code has been sent.' };
+  return { success: true, message: 'If an account exists, a recovery code has been sent.', reset_code: code };
 }
 
 export async function resetPassword({ email, code, new_password }) {
