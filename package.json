@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "build": "npm --prefix client run build",
-    "dev:client": "npm --prefix client run dev",
-    "dev:server": "npm --prefix server run dev",
-    "seed": "npm --prefix server run db:seed"
+    "build": "npm --prefix frontend run build",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "seed": "node backend/scripts/seedDb.js",
+    "check:env": "node scripts/check-environment.js",
+    "verify:seed": "node scripts/verify-rule-seed.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
