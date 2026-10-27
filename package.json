@@ -1,0 +1,13 @@
+{
+  "name": "sih26261-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SIH26261 — AI-Powered Application Validation & AICTE Compliance System",
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "build:client": "npm --prefix client run build",
+    "seed": "npm --prefix server run db:seed"
+  }
+}
