@@ -1,8 +1,8 @@
 import React from 'react';
-import { GraduationCap, LogOut, Building2, ShieldCheck, User } from 'lucide-react';
+import { GraduationCap, LogOut, Building2, ShieldCheck, User, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-export default function Navbar() {
+export default function Navbar({ onNavigateNotifications }) {
   const { user, switchRole, logout } = useAuth();
   const role = user?.role === 'institution_user' ? 'institution' : user?.role || 'institution';
 
@@ -50,6 +50,18 @@ export default function Navbar() {
                 Admin
               </button>
             </div>
+
+            {/* Notification Bell Shortcut */}
+            {user && (
+              <button
+                onClick={onNavigateNotifications}
+                title="View Notification Logs & Dispatches"
+                className="p-2 text-slate-500 hover:text-sky-600 hover:bg-slate-100 rounded-xl transition relative"
+              >
+                <Bell className="w-4 h-4" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-sky-500 rounded-full animate-pulse"></span>
+              </button>
+            )}
 
             {/* User Profile & Sign Out */}
             {user && (
